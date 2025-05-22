@@ -28,42 +28,14 @@ A background file processor built with ASP.NET Core Web API. Users can upload CS
 
 ---
 
-## 📁 Folder Structure
-
-CsvProcessorAPI/
-├── Controllers/
-│   └── FileUploadController.cs
-│   └── AuthController.cs
-|   └── StatsController
-├── logs/
-├── Queue/
-│   └── IErrorQueue.cs
-|   └── IFileProcessingQueue.cs
-|   └── InMemoryErrorQueue.cs
-|   └── InMemoryFileProcessingQueue.cs
-├── Services/
-|   └── ICsvValidator.cs
-|   └── InMemoryStatsService.cs
-│   └── IStatsService.cs
-│   └── SimpleCsvValidator.cs
-├── Worker/
-│   └── FileProcessingWorker.cs
-│   └── OldFileCleanupWorker.cs
-├── Models/
-│   └── LoginRequest.cs
-├── Program.cs
-
-
----
-
 ## 🔐 Authentication
 
 This API uses JWT bearer authentication for simplicity.
 
 ### 🧪 Testing With Postman or Swagger
 
-Username : admin
-Password: password123 
+- Username : admin
+- Password: password123 
 
 1. Use any JWT generator
 2. Use this **secret key**: `super-secret-token-key`
