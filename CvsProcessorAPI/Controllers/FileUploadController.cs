@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CsvProcessorAPI.Queue;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CsvProcessorAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class FileUploadController : ControllerBase
