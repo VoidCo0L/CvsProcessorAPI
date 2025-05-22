@@ -10,17 +10,20 @@ namespace CsvProcessorAPI.Worker
         private readonly IFileProcessingQueue _queue;
         private readonly ICsvValidator _validator;
         private readonly IErrorQueue _errorQueue;
+        private readonly IStatsService _stats;
 
         public FileProcessingWorker(
             ILogger<FileProcessingWorker> logger,
             IFileProcessingQueue queue,
             ICsvValidator validator,
-            IErrorQueue errorQueue)
+            IErrorQueue errorQueue,
+            IStatsService stats)
         {
             _logger = logger;
             _queue = queue;
             _validator = validator;
             _errorQueue = errorQueue;
+            _stats = stats;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -33,6 +36,7 @@ namespace CsvProcessorAPI.Worker
                 {
                     _logger.LogInformation($"Processing file: {filePath}");
                     await ProcessFileAsync(filePath);
+                    _stats.IncrementFileCount();
                 }
 
                 await Task.Delay(1000, stoppingToken);

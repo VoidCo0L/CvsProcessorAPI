@@ -15,6 +15,7 @@ builder.Services.AddSingleton<IFileProcessingQueue, InMemoryFileProcessingQueue>
 builder.Services.AddHostedService<FileProcessingWorker>();
 builder.Services.AddSingleton<ICsvValidator, SimpleCsvValidator>();
 builder.Services.AddSingleton<IErrorQueue, InMemoryErrorQueue>();
+builder.Services.AddSingleton<IStatsService, InMemoryStatsService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
