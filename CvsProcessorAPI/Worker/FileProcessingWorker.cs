@@ -1,4 +1,6 @@
 ﻿using CsvProcessorAPI.Queue;
+using CsvProcessorAPI.Services;
+using CvsProcessorAPI.Services;
 
 namespace CsvProcessorAPI.Worker
 {
@@ -6,11 +8,19 @@ namespace CsvProcessorAPI.Worker
     {
         private readonly ILogger<FileProcessingWorker> _logger;
         private readonly IFileProcessingQueue _queue;
+        private readonly ICsvValidator _validator;
+        private readonly IErrorQueue _errorQueue;
 
-        public FileProcessingWorker(ILogger<FileProcessingWorker> logger, IFileProcessingQueue queue)
+        public FileProcessingWorker(
+            ILogger<FileProcessingWorker> logger,
+            IFileProcessingQueue queue,
+            ICsvValidator validator,
+            IErrorQueue errorQueue)
         {
             _logger = logger;
             _queue = queue;
+            _validator = validator;
+            _errorQueue = errorQueue;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,8 +44,15 @@ namespace CsvProcessorAPI.Worker
             var lines = await File.ReadAllLinesAsync(filePath);
             foreach (var line in lines)
             {
-                // Simulate processing line
-                _logger.LogInformation($"Processed line: {line}");
+                if (_validator.IsValidLine(line))
+                {
+                    _logger.LogInformation($"✅ Valid line: {line}");
+                }
+                else
+                {
+                    _logger.LogWarning($"❌ Invalid line: {line}");
+                    _errorQueue.AddError(filePath, line);
+                }
             }
 
             File.Delete(filePath); // Clean up
