@@ -1,10 +1,11 @@
-# 📂 CSV Processor API
+# 📄 CSV Processor API
 
-A production-style .NET Web API for processing uploaded CSV files in the background — with validation, logging, error tracking, authentication, and scheduled cleanup.
+A background file processor built with ASP.NET Core Web API. Users can upload CSV files which are then validated and processed asynchronously via a background worker. The system supports multiple file uploads, error handling, logging to file, authentication with JWT, and a summary endpoint for tracking file statistics.
 
 ## 🚀 Features
 
 - ✅ Upload single or multiple CSV files
+- ✅ JWT Authentication for secure endpoints
 - 🔄 Background processing via `BackgroundService`
 - ✅ CSV validation
 - 🚨 Error tracking for invalid lines
@@ -20,6 +21,7 @@ A production-style .NET Web API for processing uploaded CSV files in the backgro
 - C# (.NET 8)
 - ASP.NET Core Web API
 - Background Services
+- Swagger / Swashbuckle
 - In-Memory Queues
 - Serilog File Logging
 - JWT Authentication
@@ -28,12 +30,29 @@ A production-style .NET Web API for processing uploaded CSV files in the backgro
 
 ## 📁 Folder Structure
 
+CsvProcessorAPI/
 ├── Controllers/
-├── Queue/
-├── Services/
-├── Worker/
+│   └── FileUploadController.cs
+│   └── AuthController.cs
+|   └── StatsController
 ├── logs/
+├── Queue/
+│   └── IErrorQueue.cs
+|   └── IFileProcessingQueue.cs
+|   └── InMemoryErrorQueue.cs
+|   └── InMemoryFileProcessingQueue.cs
+├── Services/
+|   └── ICsvValidator.cs
+|   └── InMemoryStatsService.cs
+│   └── IStatsService.cs
+│   └── SimpleCsvValidator.cs
+├── Worker/
+│   └── FileProcessingWorker.cs
+│   └── OldFileCleanupWorker.cs
+├── Models/
+│   └── LoginRequest.cs
 ├── Program.cs
+
 
 ---
 
@@ -42,6 +61,9 @@ A production-style .NET Web API for processing uploaded CSV files in the backgro
 This API uses JWT bearer authentication for simplicity.
 
 ### 🧪 Testing With Postman or Swagger
+
+Username : admin
+Password: password123 
 
 1. Use any JWT generator
 2. Use this **secret key**: `super-secret-token-key`
