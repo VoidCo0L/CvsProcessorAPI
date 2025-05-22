@@ -1,0 +1,6 @@
+@CvsProcessorAPI_HostAddress = http://localhost:5252
+
+GET {{CvsProcessorAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
