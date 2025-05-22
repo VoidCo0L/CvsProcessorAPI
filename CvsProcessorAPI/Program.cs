@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddFile("logs/app-log-{Date}.txt"); //line 10-12 log to File instead of console
+
 builder.Services.AddSingleton<IFileProcessingQueue, InMemoryFileProcessingQueue>();
 builder.Services.AddHostedService<FileProcessingWorker>();
 builder.Services.AddSingleton<ICsvValidator, SimpleCsvValidator>();
