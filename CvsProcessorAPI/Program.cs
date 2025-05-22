@@ -20,13 +20,14 @@ builder.Services.AddHostedService<FileProcessingWorker>();
 builder.Services.AddSingleton<ICsvValidator, SimpleCsvValidator>();
 builder.Services.AddSingleton<IErrorQueue, InMemoryErrorQueue>();
 builder.Services.AddSingleton<IStatsService, InMemoryStatsService>();
+builder.Services.AddHostedService<OldFileCleanupWorker>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Csv Processor API", Version = "v1" });
 
-    // ?? Add JWT Authentication to Swagger
+    // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme.  
